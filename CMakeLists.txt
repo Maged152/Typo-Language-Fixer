@@ -1,21 +1,18 @@
 cmake_minimum_required(VERSION 3.22)
-project(CMakeLibTemplate VERSION 0.0.1)
+project(TypeLangFixer VERSION 1.0.0)
 
 # Enable CTest and options only for the main project
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     include(CTest)
     set(PARENT_PROJECT_NAME ${PROJECT_NAME})
-    option(CMakeLibTemplate_BUILD_TESTING "Enable testing" ON)
-    option(CMakeLibTemplate_BUILD_EXAMPLES "Enable examples" ON)
+    option(TypeLangFixer_BUILD_TESTING "Enable testing" ON)
 endif()
-
-option(CMakeLibTemplate_BUILD_Doc "Build documentations" ON)
 
 # Configuration
 set(version_config "${PROJECT_NAME}ConfigVersion.cmake")
 set(project_config "${PROJECT_NAME}Config.cmake")
 set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
-set(namespace "NameSpace::")
+set(namespace "qlm::")
 set(INSTALL_INC_DIR "include")
 set(INSTALL_BIN_DIR "bin")
 set(INSTALL_LIB_DIR "lib")
@@ -37,25 +34,25 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:${INSTALL_INC_DIR}>
 )
 
-add_library(NameSpace::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(${namespace}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+# Source file for the executable
+set(MAIN_SOURCE main.cpp)
+
+# Create the executable
+add_executable(${PROJECT_NAME}_exec ${MAIN_SOURCE})
+target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
 
 # Check if testing is enabled
-if(CMakeLibTemplate_BUILD_TESTING AND BUILD_TESTING)
+if(TypeLangFixer_BUILD_TESTING AND BUILD_TESTING)
     message(STATUS "Testing for ${PROJECT_NAME} is enabled")
     add_subdirectory(tests)
 endif()
 
-# Check if examples are enabled
-if(CMakeLibTemplate_BUILD_EXAMPLES)
-    message(STATUS "Examples for ${PROJECT_NAME} are enabled")
-    add_subdirectory(examples)
-endif()
-
-# Check if documentations are enabled
-if(CMakeLibTemplate_BUILD_Doc)
-    message(STATUS "documentations for ${PROJECT_NAME} are enabled")
-    add_subdirectory(doc)
-endif()
+# Install the executable
+install(TARGETS ${PROJECT_NAME}_exec
+    RUNTIME DESTINATION ${INSTALL_BIN_DIR}
+)
 
 # Install the library
 install(TARGETS ${PROJECT_NAME}
@@ -72,9 +69,9 @@ install(EXPORT "${TARGETS_EXPORT_NAME}"
 )
 
 install(
-    DIRECTORY include/ dependencies/
+    DIRECTORY include/
     DESTINATION ${INSTALL_INC_DIR}
-    FILES_MATCHING PATTERN "*.h"
+    FILES_MATCHING PATTERN "*.hpp"
 )
 
 # Create the package configuration file

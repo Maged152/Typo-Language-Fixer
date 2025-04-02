@@ -1,4 +1,4 @@
-# CMakeLibTemplate CMake configuration file.
+# TypeLangFixer CMake configuration file.
 
 @PACKAGE_INIT@
 

@@ -22,15 +22,12 @@ INSTANTIATE_TEST_SUITE_P(
     FixLanguageTest,
     ::testing::Values(
         // Test Arabic to English transliteration
-        std::make_tuple(L"اثممخ", qlm::Language::ARABIC, L"hello"), // Arabic "ضصث" -> English "qwe"
-        std::make_tuple(L"ؤشف", qlm::Language::ARABIC, L"cat") // Arabic "قفغ" -> English "rty"
+        std::make_tuple(L"اثممخ", qlm::Language::ARABIC, L"hello"), 
+        std::make_tuple(L"ؤشف", qlm::Language::ARABIC, L"cat"),
+        // std::make_tuple(L"ؤرلا", qlm::Language::ARABIC, L"cvb"),
 
         // Test English to Arabic transliteration
-        // std::make_tuple(L"qwe", qlm::Language::ENGLISH, L"ضصث"), // English "qwe" -> Arabic "ضصث"
-        // std::make_tuple(L"rty", qlm::Language::ENGLISH, L"قفغ"), // English "rty" -> Arabic "قفغ"
-
-        // // Test unmapped characters (should remain unchanged)
-        // std::make_tuple(L"123", qlm::Language::ARABIC, L"123"), // Numbers remain unchanged
-        // std::make_tuple(L"123", qlm::Language::ENGLISH, L"123") // Numbers remain unchanged
+        std::make_tuple(L";dt phg;", qlm::Language::ENGLISH, L"كيف حالك"),
+        std::make_tuple(L"hgr'm hglaladm", qlm::Language::ENGLISH, L"القطة المشمشية")
     )
 );

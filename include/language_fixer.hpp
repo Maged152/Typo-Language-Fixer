@@ -10,4 +10,8 @@ namespace qlm
 
     // language fixer
     std::wstring FixLanguage(const std::wstring& text, const Language lang);
+
+    // Clipboard functions
+    std::wstring ReadClipboardText();
+    void WriteClipboardText(const std::wstring& text);
 }

@@ -8,6 +8,9 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     option(TypeLangFixer_BUILD_TESTING "Enable testing" ON)
 endif()
 
+set(project_lib ${PROJECT_NAME}Lib)
+set(project_exec ${PROJECT_NAME})
+
 # Configuration
 set(version_config "${PROJECT_NAME}ConfigVersion.cmake")
 set(project_config "${PROJECT_NAME}Config.cmake")
@@ -23,39 +26,42 @@ set(INSTALL_CFG_DIR "cmake")
 file(GLOB_RECURSE SOURCES source/*.cpp)
 
 # Create the static library
-add_library(${PROJECT_NAME} STATIC ${SOURCES})
+add_library(${project_lib} STATIC ${SOURCES})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES 
+set_target_properties(${project_lib} PROPERTIES 
                         CXX_STANDARD 20
                         CXX_EXTENSIONS OFF)
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${project_lib} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${INSTALL_INC_DIR}>
 )
 
-add_library(${namespace}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(${namespace}::${project_lib} ALIAS ${project_lib})
 
 # Source file for the executable
 set(MAIN_SOURCE main.cpp)
 
 # Create the executable
-add_executable(${PROJECT_NAME}_exec ${MAIN_SOURCE})
-target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
+add_executable(${project_exec} ${MAIN_SOURCE})
+target_link_libraries(${project_exec} PRIVATE ${project_lib})
 
 # Check if testing is enabled
 if(TypeLangFixer_BUILD_TESTING AND BUILD_TESTING)
     message(STATUS "Testing for ${PROJECT_NAME} is enabled")
     add_subdirectory(tests)
+
+    set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+    set(INSTALL_GMOCK OFF CACHE BOOL "" FORCE)
 endif()
 
 # Install the executable
-install(TARGETS ${PROJECT_NAME}_exec
+install(TARGETS ${project_exec}
     RUNTIME DESTINATION ${INSTALL_BIN_DIR}
 )
 
 # Install the library
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${project_lib}
     EXPORT "${TARGETS_EXPORT_NAME}"
     LIBRARY DESTINATION ${INSTALL_LIB_DIR}
     ARCHIVE DESTINATION ${INSTALL_LIB_DIR}

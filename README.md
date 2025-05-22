@@ -1,48 +1,83 @@
 # TypeLangFixer
-TypeLangFixer is a comprehensive template designed to streamline the process of building a library using `CMake`. This template provides a solid foundation, including a clear and organized directory structure, essential CMake configuration files, and best practices for library development. With TypeLangFixer, developers can quickly set up a new project with consistent build settings and focus on writing their library code, rather than spending time on initial configuration. Whether you are developing a static or shared library, this template ensures a smooth and efficient start to your CMake-based project.
 
-# Features
-* Build the Library: Easily compile your library with CMake.
-* Examples: Include example code to demonstrate how to use your library.
-* Tests Using Google Test: Integrate unit tests using Google Test framework to ensure your library works as expected.
-* Documentation Using Doxygen: Generate professional documentation for your codebase using Doxygen.
-* Install: Install your library and its headers to a specified location.
+TypeLangFixer is a simple utility (for Windows) that helps you quickly fix text in your clipboard when you accidentally type in the wrong keyboard language (`English`/`Arabic`). If you meant to type in Arabic but your keyboard was set to English (or vice versa), this tool will convert the clipboard text using a keyboard-based lookup table and update your clipboard with the corrected text.
 
-# How to Use
-* Clone the repository.
-* Rename the project:
-   * Replace all instances of `TypeLangFixer` with your project name.
-* Make sure your project follows the same directory structure.
+---
 
-# Build & Targets
+## Features
 
-## Configure 
-    $ cmake -S <source_dir> -B <build_dir>
+- **Clipboard Integration:** Reads the current clipboard text (what you copied with `Ctrl+C`).
+- **Keyboard Layout Correction:** Converts text between English and Arabic based on the the copied text.
+- **Quick Fix:** After copying the wrong text, run the app and your clipboard is instantly fixed.
+- **Easy Shortcut Integration:** Assign a global shortcut (e.g., `Ctrl+Win+Z`) to run the app for instant correction.
 
-You can use `presets`
+---
 
-    $ cmake -S <source_dir> --preset <preset_name>
+## How It Works
 
-To know the existing presets
+1. **Copy Text:** Select and copy the text you typed in the wrong language using `Ctrl+C`.
+2. **Run TypeLangFixer:** Execute the app (either by double-clicking or using a shortcut).
+3. **Clipboard Fixed:** The app detects the language, converts the text using the lookup table, and updates your clipboard.
+4. **Paste:** Use `Ctrl+V` to paste the corrected text wherever you need.
 
-    $ cmake -S <source_dir> --list-presets
+**Example:**  
+You meant to type Arabic, but your keyboard was set to English and you typed:  
+`sghl`  
+Copy it, run TypeLangFixer, and your clipboard will now contain:  
+`سلام`
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+```
+git clone https://github.com/Maged152/Typo-Language-Fixer.git
+```
+### 2.  Build the Project
+```
+cmake -S <source_dir> -B <build_dir>
+cmake --build <build_dir>
+```
+### 3.  Install the App
+```
+cmake --install <build_dir> --prefix <install_dir>
+```
+### 4. (Optional) Assign a Shortcut 
+For convenience, you can assign a global shortcut to run `<install_dir>/bin/TypeLangFixer_exec.exe`
 
 
-## Build
-    $ cmake --build <build_dir>
+## Supported Platforms
 
-## Install
-    $ cmake --install <build_dir> --prefix <install_dir>
+- **Windows:** Uses the native clipboard API.
 
-## Generate Documentations
-    $ cmake --build <build_dir> --target documentation
+---
 
-## Running Tests
-### Run a specific test
-    $ cmake --build <build_dir> --target Test_<test_name>
+## Notes
 
-### Run all tests
-    $ ctest --test-dir <build_dir>
+- This tool does **not** translate between English and Arabic; it remaps the characters based on the keyboard layout.
+- Works best for fixing text typed with the wrong keyboard language setting.
+- For best experience, assign a global shortcut to the executable.
 
-## Examples
-    $ cmake --build <build_dir> --target Example_<example_name>
+---
+
+## Example
+
+| Mistyped                    | Intended                   |
+|-----------------------------|----------------------------|
+| hgsghl ugd;l                | السلام عليكم               |
+| اثممخ صخقمي                | hello world                |
+
+---
+
+## Contributing
+
+Pull requests and suggestions are welcome!
+
+---
+
+## License
+
+MIT License
+```
+This is ready to use as your README.md.

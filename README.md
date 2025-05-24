@@ -44,7 +44,7 @@ cmake --build <build_dir>
 cmake --install <build_dir> --prefix <install_dir>
 ```
 ### 4. (Optional) Assign a Shortcut 
-For convenience, you can assign a global shortcut to run `<install_dir>/bin/TypeLangFixer_exec.exe`
+For convenience, you can assign a global shortcut to run `<install_dir>/bin/TypeLangFixer.exe`
 
 
 ## Supported Platforms
